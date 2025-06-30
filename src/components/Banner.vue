@@ -20,7 +20,7 @@ onMounted(async () => {
 const startSlider = () => {
   setInterval(() => {
     currentBanner.value = (currentBanner.value + 1) % banners.value.length;
-  }, 3000); // Chuyển banner mỗi 3 giây
+  }, 5000); // Chuyển banner mỗi 5 giây
 };
 // e.touches thuộc TouchEvent có sẵn trong JS
 const startTouch = (e) => {
@@ -51,19 +51,20 @@ const prevSlide = () => {
 </script>
 
 <template>
+  <div class="w-full px-4 py-2 flex items-center justify-between">
+    <!-- Sau này sẽ sửa tên quán, địa chỉ ở dạng get dữ liệu từ admin nếu có thể -->
+    <div class="p-2">
+      <h1 class="text-lg font-semibold">Bánh Mỳ Ô Long</h1>
+      <p class="text-sm text-gray-600">
+        67 Hồ Đắc Di, Nam Đồng, Đống Đa, Hà Nội
+      </p>
+    </div>
+  </div>
   <div
     class="w-11/12 mx-auto h-45 flex justify-center items-center rounded-2xl overflow-hidden relative mt-4 mb-4 touch-pan-x"
     @touchstart="startTouch"
     @touchmove="moveTouch"
   >
-    <!-- <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-lg font-bold">Bánh Mỳ Ô Long</h1>
-        <p class="text-sm text-gray-600">
-          67 Hồ Đắc Di, Nam Đồng, Đống Đa, Hà Nội
-        </p>
-      </div>
-    </div> -->
     <transition-group name="fade" tag="div">
       <img
         v-for="(img, index) in banners"
@@ -77,6 +78,7 @@ const prevSlide = () => {
     <div
       class="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1"
     >
+      <!--Phân biệt index bằng cách thêm 'dot-' để sau nhìn lại tránh bị nhầm(có thể bỏ qua vì ko ah trực tiếp đến code)-->
       <span
         v-for="(img, index) in banners"
         :key="'dot-' + index"

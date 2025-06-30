@@ -1,9 +1,6 @@
-<script setup>
-// import Banner from "./components/Banner.vue";
-</script>
+<script setup></script>
 
 <template>
-  <!-- <Banner /> -->
   <router-view />
 </template>
 
