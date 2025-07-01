@@ -1,9 +1,34 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useCartStore } from "../stores/cart";
+const cart = useCartStore();
 const props = defineProps(["product"]);
 const quantity = ref(0);
-const decrease = () => quantity.value > 0 && quantity.value--;
-const increase = () => quantity.value++;
+// const decrease = () => quantity.value > 0 && quantity.value--;
+// const increase = () => quantity.value++;
+const decrease = () => {
+  if (quantity.value > 0) {
+    quantity.value--;
+    cart.removeItem(props.product);
+  }
+};
+const increase = () => {
+  quantity.value++;
+  cart.addItem(props.product);
+};
+
+//đồng bộ giỏ hàng
+watch(
+  () => cart.items, //hàm getter trả về cart.items
+  () => {
+    const q = cart.getItemQuantity(props.product.id);
+    quantity.value = q;
+  },
+  {
+    immediate: true, // callback ngay lập tức 1 lần khi component mounted
+    deep: true, // theo dõi sâu bên trong mảng cart.items
+  }
+);
 </script>
 <template>
   <div class="bg-white rounded-xl shadow p-2 space-y-2">

@@ -10,7 +10,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) =>{
     // const token = localStorage.getItem("accessToken")
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6ImR1Y2dpZGF5Iiwicm9sZXMiOltdLCJleHAiOjE3NTEzNDMzNjZ9.maWiz-ZCAkHwilOxVHA-fFtnBmqGBRcMXAbClq4gLoM"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6ImR1Y2dpZGF5Iiwicm9sZXMiOltdLCJleHAiOjE3NTE0Mjk2NjZ9.mcR5I9BnHhNVmfFIq8I_RSqxRpT8NOVtrfJW6RLznbI"
     console.log("Token", token);
     if(token){
       //thêm token vào header Authorization

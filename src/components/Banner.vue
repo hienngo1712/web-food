@@ -54,9 +54,9 @@ const prevSlide = () => {
   <div class="w-full px-4 py-2 flex items-center justify-between">
     <!-- Sau này sẽ sửa tên quán, địa chỉ ở dạng get dữ liệu từ admin nếu có thể -->
     <div class="p-2">
-      <h1 class="text-lg font-semibold">Bánh Mỳ Ô Long</h1>
+      <h1 class="text-lg font-semibold">Bánh Mỳ Suiuoi</h1>
       <p class="text-sm text-gray-600">
-        67 Hồ Đắc Di, Nam Đồng, Đống Đa, Hà Nội
+        635 Ngọc Hồi, Khu ga Văn Điển, Thanh Trì, Hà Nội
       </p>
     </div>
   </div>

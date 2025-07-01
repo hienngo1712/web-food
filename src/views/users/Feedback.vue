@@ -39,7 +39,7 @@ const submitFeedback = () => {
           :key="i"
           @click="rating = i"
           class="text-4xl"
-          :class="i <= rating ? 'text-yellow-500' : 'text-gray-300'"
+          :class="i <= rating ? 'text-yellow-400' : 'text-gray-200'"
         >
           ★</span
         >

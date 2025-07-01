@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import HeaderSearch from "../components/HeaderSearch.vue";
-import CategoryTabs from "../components/CategoryTabs.vue";
-import ProductCart from "../components/ProductCart.vue";
-import CartBar from "../components/CartBar.vue";
+import HeaderSearch from "../../components/HeaderSearch.vue";
+import CategoryTabs from "../../components/CategoryTabs.vue";
+import ProductCart from "../../components/ProductCart.vue";
+import CartBar from "../../components/CartBar.vue";
 // import apiClient from "../api/axiosClient";
 import axios from "axios";
 const products = ref([]);

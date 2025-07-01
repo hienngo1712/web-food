@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import CustomerLogin from '../views/CustomerLogin.vue';
-import CustomerMenu from '../views/CustomerMenu.vue';
-import CallStaff from '../views/CallStaff.vue';
-import Feedback from '../views/Feedback.vue';
+import CustomerLogin from '../views/users/CustomerLogin.vue';
+import CustomerMenu from '../views/users/CustomerMenu.vue';
+import CallStaff from '../views/users/CallStaff.vue';
+import Feedback from '../views/users/Feedback.vue';
 const routes = [
   {
     path: '/',
