@@ -3,7 +3,9 @@ import CustomerLogin from '../views/users/CustomerLogin.vue';
 import CustomerMenu from '../views/users/CustomerMenu.vue';
 import CallStaff from '../views/users/CallStaff.vue';
 import Feedback from '../views/users/Feedback.vue';
+import Dashboard from '../views/admin/Dashboard.vue';
 import UserLayout from '../layouts/UserLayout.vue';
+import AdminLayout from '../layouts/AdminLayout.vue';
 import { h } from 'vue';
 const routes = [
   {
@@ -26,6 +28,21 @@ const routes = [
     name: 'Feedback',
     component: withDefaultLayout(Feedback),
   },
+  {
+    path: '/dashboard',
+    component: Dashboard,
+  },
+  // {
+  //   path: '/admin',
+  //   name: 'Admin',
+  //   component: AdminLayout,
+  //   children:[
+  //     {
+  //       path: 'dashboard',
+  //       component: Dashboard,
+  //     },
+  //   ]
+  // }
 ]
 const router = createRouter({
   history: createWebHistory(),

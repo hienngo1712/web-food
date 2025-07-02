@@ -28,6 +28,11 @@ const sendOrder = async () => {
     alert("Gửi order thất bại, thử lại sau");
   }
 };
+
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+    amount
+  );
 </script>
 <template>
   <div
@@ -39,7 +44,7 @@ const sendOrder = async () => {
       class="flex justify-around rounded-xl items-center h-12 bg-orange-400"
     >
       <p class="text-lg text-center font-semibold">
-        {{ cart.total.toLocaleString() }} đ
+        {{ formatCurrency(cart.total) }}
       </p>
       <p class="px-4 py-2 text-lg text-right font-semibold">Xem và xác nhận</p>
     </div>

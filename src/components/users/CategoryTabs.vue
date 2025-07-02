@@ -1,28 +1,21 @@
 <script setup>
-import { ref } from "vue";
-const categories = [
-  "MÓN CHÍNH",
-  "MÓN GỌI THÊM",
-  "ĐỒ UỐNG PHA CHẾ",
-  "KHAI VỊ",
-  "KHÁC",
-  "NƯỚC GIẢI KHÁT",
-  "BIA",
-];
-const selected = ref("MÓN CHÍNH");
-const selectCategory = (cat) => {
-  selected.value = cat;
-};
+import { defineProps, defineEmits } from "vue";
+const props = defineProps({
+  categories: Array,
+  selected: String,
+});
+const emit = defineEmits(["select"]);
 </script>
 <template>
+  <!-- -->
   <div
-    class="max-w-[450px] md:max-w-full grid grid-cols-4 md:grid-cols-8 gap-2 p-2 bg-gray-100"
+    class="max-w-[450px] md:max-w-full fixed top-12 left-0 right-0 grid grid-cols-4 md:grid-cols-8 gap-2 p-2 bg-gray-200 border-b"
   >
     <button
       v-for="(cat, i) in categories"
       :key="i"
-      @click="selectCategory(cat)"
-      :class="selected === cat ? 'bg-orange-400 text-white' : 'bg-white'"
+      @click="emit('select', cat)"
+      :class="props.selected === cat ? 'bg-orange-400 text-white' : 'bg-white'"
       class="rounded px-1 py-1 text-sm font-semibold line-clamp-1"
     >
       {{ cat }}

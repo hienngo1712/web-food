@@ -3,7 +3,8 @@ import { ref } from "vue";
 const search = ref("");
 </script>
 <template>
-  <div class="flex items-center p-2 bg-white shadow">
+  <!--  -->
+  <div class="flex items-center fixed top-0 left-0 right-0 p-2 bg-white shadow">
     <p
       @click="$router.push('/')"
       class="fas fa-home text-xl rounded-xl p-2 bg-gray-100 text-orange-400 mr-2"

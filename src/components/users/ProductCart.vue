@@ -4,8 +4,7 @@ import { useCartStore } from "../../stores/cart";
 const cart = useCartStore();
 const props = defineProps(["product"]);
 const quantity = ref(0);
-// const decrease = () => quantity.value > 0 && quantity.value--;
-// const increase = () => quantity.value++;
+
 const decrease = () => {
   if (quantity.value > 0) {
     quantity.value--;
@@ -29,6 +28,11 @@ watch(
     deep: true, // theo dõi sâu bên trong mảng cart.items
   }
 );
+//Intl.NumberFormat là API có sẵn trong JS dùng để Định dạng tiền tệ
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+    amount
+  );
 </script>
 <template>
   <div class="bg-white rounded-xl shadow p-2 space-y-2">
@@ -36,7 +40,7 @@ watch(
     <p class="font-semibold text-sm">{{ product.name_food }}</p>
     <div class="flex items-center justify-between">
       <p class="text-orange-500 text-sm font-semibold">
-        {{ product.price.toLocaleString() }} đ
+        {{ formatCurrency(product.price) }}
       </p>
       <div class="text-right p-2">
         <button
