@@ -37,6 +37,7 @@ export const useCartStore = defineStore("cart", {
       if (found) {
         found.quantity--;
         if (found.quantity <= 0) {
+          // lọc các món khác với product.id
           this.items = this.items.filter((i) => i.id !== product.id);
         }
       }
@@ -51,7 +52,8 @@ export const useCartStore = defineStore("cart", {
   },
   getters: {
     getItemQuantity: (state) => (id) => {
-      const found = state.items.find((i) => i.id === id);
+      // trả về ptu đầu tiên thỏa mãn dk , ko thì trả về undefined
+      const found = state.items.find((i) => i.id === id); 
       return found ? found.quantity : 0;
     },
   },

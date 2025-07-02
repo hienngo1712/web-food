@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-import { useCartStore } from "../stores/cart";
+import { useCartStore } from "../../stores/cart";
 import axios from "axios";
 const cart = useCartStore();
 onMounted(() => cart.fetchCart());

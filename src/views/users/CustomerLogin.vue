@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
-import Banner from "../../components/Banner.vue";
+import Banner from "../../components/users/Banner.vue";
 import apiClient from "../../api/axiosClient";
 const phone_number = ref("");
 const customer_name = ref("");

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useCartStore } from "../stores/cart";
+import { useCartStore } from "../../stores/cart";
 const cart = useCartStore();
 const props = defineProps(["product"]);
 const quantity = ref(0);
