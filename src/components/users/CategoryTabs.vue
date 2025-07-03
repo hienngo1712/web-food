@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
 const props = defineProps({
   categories: Array,
   selected: String,
@@ -7,9 +6,8 @@ const props = defineProps({
 const emit = defineEmits(["select"]);
 </script>
 <template>
-  <!-- -->
   <div
-    class="max-w-[450px] md:max-w-full fixed top-12 left-0 right-0 grid grid-cols-4 md:grid-cols-8 gap-2 p-2 bg-gray-200 border-b"
+    class="max-w-[450px] md:max-w-full fixed top-12 left-0 right-0 grid grid-cols-4 md:grid-cols-8 gap-2 p-2 bg-gray-100 border-b"
   >
     <button
       v-for="(cat, i) in categories"

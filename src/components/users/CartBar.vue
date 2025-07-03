@@ -17,7 +17,7 @@ const sendOrder = async () => {
       status: "active",
     };
     await axios.post(
-      "https://685a05679f6ef9611154cb93.mockapi.io/orders",
+      "https://685a05679f6ef9611154cb93.mockapi.io/cart",
       orderData
     );
     alert("Đã gửi order tới bếp");

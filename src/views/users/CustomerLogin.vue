@@ -7,19 +7,34 @@ const customer_name = ref("");
 const customer = ref(null);
 const showNotFound = ref(false);
 const togglePhone = ref(false);
-const err = ref("");
+const errPhone = ref("");
+const errName = ref("");
 //Validate số đt
 const isPhoneValid = computed(
   () => phone_number.value.length === 10 && /^\d+$/.test(phone_number.value)
 );
+//Validate tên
+const isNameValid = computed(() => {
+  const name = customer_name.value.trim();
+  if (name.length <= 4) return false;
+  // kiểm tra ký tự
+  const regex = /^[A-Za-zÀ-Ỹà-ỹ\s]+$/u;
+  // nghĩa là chỉ cho chữ cái (có dấu tiếng Việt) + khoảng trắng
+  return regex.test(name);
+});
 //theo dõi sự thay đổi của ô input số đt (validate realtime)
 watch(phone_number, (newValue) => {
-  err.value =
+  errPhone.value =
     newValue && !isPhoneValid.value
       ? "Số điện thoại không hợp lệ. Vui lòng nhập lại."
       : "";
 });
-
+watch(customer_name, (newValue) => {
+  errName.value =
+    newValue && !isNameValid.value
+      ? "Tên người dùng không hợp lệ. Vui lòng nhập lại."
+      : "";
+});
 const fetchCustomer = async () => {
   try {
     const res = await apiClient.get("/kitchen/customers", {
@@ -28,8 +43,14 @@ const fetchCustomer = async () => {
       },
     });
     if (res.data.length > 0) {
-      customer.value = res.data[0];
-      showNotFound.value = false;
+      const found = res.data.find((f) => f.phone_number === phone_number.value);
+      if (found) {
+        customer.value = found;
+        showNotFound.value = false;
+      } else {
+        customer.value = null;
+        showNotFound.value = true;
+      }
     } else {
       customer.value = null;
       showNotFound.value = true;
@@ -82,8 +103,8 @@ const createCustomer = async () => {
           >
             Kiểm tra
           </button>
-          <p v-if="!!err" class="text-red-500 mt-2">
-            {{ err }}
+          <p v-if="!!errPhone" class="text-red-500 mt-2">
+            {{ errPhone }}
           </p>
         </div>
       </div>
@@ -123,10 +144,14 @@ const createCustomer = async () => {
         <div class="text-center mt-4">
           <button
             @click="createCustomer"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            :disabled="!isNameValid"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
           >
             Tạo khách hàng mới
           </button>
+          <p v-if="!!errName" class="text-red-500 mt-2">
+            {{ errName }}
+          </p>
         </div>
       </div>
       <div class="grid grid-cols-3 gap-2">

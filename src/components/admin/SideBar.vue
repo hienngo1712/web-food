@@ -1,15 +1,12 @@
 <script setup></script>
 <template>
   <aside
-    class="w-32 md:w-64 min-h-screen bg-gray-100 border-r border-gray-200 flex flex-col"
+    class="w-32 md:w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col shadow-md"
   >
     <div
       class="h-16 flex items-center justify-center rounded shadow bg-orange-500"
     >
-      <span class="text-white font-bold text-xl">Suiuoi</span>
-    </div>
-    <div class="p-4 border-t text-center font-semibold border-gray-200">
-      Admin
+      <span class="text-white font-semibold text-xl">Suiuoi</span>
     </div>
     <nav class="flex-1 p-4 space-y-3">
       <router-link
