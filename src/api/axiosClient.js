@@ -1,17 +1,16 @@
 import axios from "axios";
-
+const baseURL = import.meta.env.VITE_API_URL;
 const apiClient = axios.create({
-    baseURL : "https://ducgiday-o2o-backend.onrender.com/api",
+    baseURL,
     headers : {
         "Content-Type" : "application/json",
+        Accept: "application/json",
     },
 })
 // Thêm interceptors vào request
 apiClient.interceptors.request.use(
   (config) =>{
-    // const token = localStorage.getItem("accessToken")
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6ImR1Y2dpZGF5Iiwicm9sZXMiOltdLCJleHAiOjE3NTE2MTM2MTZ9.M7np6RsIiJuI_Bdifm7aSq-Hu99JZk7IEcVDX80x8Qo"
-    console.log("Token", token);
+    const token = localStorage.getItem("accessToken")
     if(token){
       //thêm token vào header Authorization
       config.headers.Authorization = `Bearer ${token}`;
