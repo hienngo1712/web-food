@@ -9,6 +9,7 @@ const handleLogout = () => {
   auth.logout();
   router.push("/admin/login");
 };
+
 const showMenu = ref(false);
 </script>
 
@@ -58,7 +59,9 @@ const showMenu = ref(false);
             src="https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-1/474193369_2059487117825305_8477156851900558352_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=106&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeH58vp1xfPLNkMBbXHdvZfYWqEQQOR0w2ZaoRBA5HTDZuuiS3L6llF02daoxFdDlqmOoPh2Y8Dp-VI82UFKOgND&_nc_ohc=h07E25WZRgsQ7kNvwEVRdjc&_nc_oc=AdmLGr2iDszf4w9r3_7l3k8cktZue9Nnqy8unHxE0fb2sybxLO9aTQJ0J80ImGshA18&_nc_zt=24&_nc_ht=scontent.fhan14-5.fna&_nc_gid=04UidZ08vRcSsXZnRxaVTw&oh=00_AfP0jlQB561Pc9V3vsgpKfwZ0H_v-VmM2ag5xEb3EkanYg&oe=686D17AC"
             alt="avatar"
           />
-          <span class="hidden md:inline text-sm font-medium">Hiển Ngô</span>
+          <span class="hidden md:inline text-sm font-medium">{{
+            auth.full_name
+          }}</span>
         </button>
         <div
           v-if="showMenu"

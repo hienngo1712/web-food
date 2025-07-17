@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth",{
     token: localStorage.getItem("accessToken") || "", 
   }),
   getters:{
+    full_name: (state) => state.user?.full_name || "",
     //true nếu có token → tức là đã đăng nhập
     isAuthenticated: (state) => !!state.token,
     // Dùng some để ktra có ít nhất 1 role là admin
@@ -16,17 +17,15 @@ export const useAuthStore = defineStore("auth",{
     async login(username, password){
       try{
         const res = await apiClient.post("auth/login", {username, password});
-        console.log("check lỗi", res.data)
         this.token = res.data.accessToken;
         localStorage.setItem("accessToken", this.token);
-
         const profile = await apiClient.get("accounts");
         const userData = profile.data.results.find((u) => u.username === username);
+        // Kiểm tra nếu không tìm thấy userData
         if(!userData){
           throw new Error("Không tìm thấy thông tin người dùng")
         }
         this.user = userData;
-        console.log("Thông tin user:", this.user.roles)
         localStorage.setItem("userInfo", JSON.stringify(this.user));
       }catch(err){
         throw new Error("Tài khoản hoặc mật khẩu sai")

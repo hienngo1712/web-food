@@ -8,7 +8,7 @@ const menuItems = [
   { name: "Dashboard", path: "/admin/dashboard" },
   { name: "Users", path: "/admin/users-management" },
   { name: "Banners", path: "/admin/banners" },
-  { name: "Customers", path: "/admin/customers" },
+  { name: "Customers", path: "/admin/customners-management" },
   { name: "Stores", path: "/admin/stores" },
   { name: "Shifts", path: "/admin/shifts" },
   { name: "Tables", path: "/admin/tables" },
@@ -75,10 +75,9 @@ const menuItems = [
         :class="[
           route.path === item.path
             ? 'bg-orange-400 text-white'
-            : 'hover:bg-orange-100 text-gray-700',
+            : 'hover:bg-orange-300 hover:text-white',
         ]"
       >
-        <span>{{ item.icon }}</span>
         <span v-if="!isCollapsed" class="ml-2">{{ item.name }}</span>
       </router-link>
     </nav>

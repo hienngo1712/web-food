@@ -10,69 +10,92 @@ const newUser = reactive({
   password: "",
   roles: [],
 });
-
 const editingUserID = ref(null);
 
 const fetchUser = async () => {
   try {
     const res = await apiClient.get("/accounts");
     users.value = res.data.results;
-    console.log("Thông tin người dùng", users.value);
   } catch (error) {
-    console.error("Lấy thông tin người dùng bị lỗi", error);
+    console.error("Lỗi lấy danh sách user:", error);
   }
 };
-
-onMounted(fetchUser);
 
 const handleAddOrUpdateUser = async () => {
   try {
-    const payload = {
-      ...newUser,
-      roles: newUser.roles.map((r) => JSON.parse(r)),
-    };
+    const formData = new FormData();
+    formData.append("username", newUser.username);
+    formData.append("full_name", newUser.full_name);
+    formData.append("email", newUser.email);
 
-    if (editingUserID.value) {
-      await apiClient.patch(`/accounts/${editingUserID.value}`, payload);
-      editingUserID.value = null;
-    } else {
-      await apiClient.post("/accounts", payload);
+    if (!editingUserID.value && newUser.password) {
+      formData.append("password", newUser.password);
     }
 
-    Object.assign(newUser, {
-      username: "",
-      full_name: "",
-      email: "",
-      password: "",
-      roles: [],
+    // Sửa: gửi toàn bộ mảng roles dưới dạng JSON string
+    newUser.roles.forEach((role) => {
+      const parsed = JSON.parse(role);
+      formData.append("roles", parsed.code);
     });
+    // Log dữ liệu gửi đi để debug
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    if (editingUserID.value) {
+      if (formData.has("password")) {
+        formData.delete("password");
+      }
+      await apiClient.patch(`/accounts/${editingUserID.value}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } else {
+      await apiClient.post("/accounts", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    }
 
+    resetForm();
     await fetchUser();
   } catch (error) {
-    console.error("Thêm/Cập nhật bị lỗi", error);
-    alert("Thêm/Cập nhật thất bại");
+    console.error("Lỗi thêm/cập nhật user:", error);
+    alert("Thêm/Cập nhật user thất bại");
   }
 };
 
+const resetForm = () => {
+  Object.assign(newUser, {
+    username: "",
+    full_name: "",
+    email: "",
+    password: "",
+    roles: [],
+  });
+  editingUserID.value = null;
+};
+//
 const editUser = (user) => {
   newUser.username = user.username;
   newUser.full_name = user.full_name;
   newUser.email = user.email;
-  newUser.password = "";
-  newUser.roles = user.roles.map((r) => JSON.stringify(r));
+  newUser.password = ""; // Không hiển thị mật khẩu khi chỉnh sửa
+  newUser.roles = user.roles.map((r) => JSON.stringify({ code: r.code }));
   editingUserID.value = user.id;
 };
 
+const cancelEdit = () => resetForm();
+
 const deleteUser = async (id) => {
-  if (!confirm("Bạn có chắc muốn xóa người dùng này?")) return;
+  if (!confirm("Bạn có chắc muốn xoá?")) return;
   try {
     await apiClient.delete(`/accounts/${id}`);
     await fetchUser();
   } catch (error) {
-    console.error("Xóa người dùng bị lỗi: ", error);
-    alert("Xóa người dùng thất bại");
+    console.error("Lỗi xoá user:", error);
+    alert("Xoá thất bại");
   }
 };
+
+onMounted(fetchUser);
 </script>
 
 <template>
@@ -81,34 +104,36 @@ const deleteUser = async (id) => {
       <h2 class="text-3xl font-bold mb-6 text-center uppercase">
         Quản lý User
       </h2>
+
       <div class="max-w-3xl mx-auto">
         <h3 class="text-xl font-semibold mb-4 text-center">Thêm/Sửa User</h3>
         <div class="space-y-4">
           <input
-            type="text"
             v-model="newUser.username"
+            type="text"
             placeholder="Tên người dùng"
             class="w-full p-2 border rounded"
           />
           <input
-            type="text"
             v-model="newUser.full_name"
+            type="text"
             placeholder="Tên đầy đủ"
             class="w-full p-2 border rounded"
           />
           <input
-            type="text"
             v-model="newUser.email"
+            type="text"
             placeholder="Email"
             class="w-full p-2 border rounded"
           />
           <input
             v-if="!editingUserID"
-            type="password"
             v-model="newUser.password"
+            type="password"
             placeholder="Mật khẩu"
             class="w-full p-2 border rounded"
           />
+
           <div>
             <label class="block font-semibold mb-2">Chọn vai trò:</label>
             <div class="flex gap-4 flex-wrap">
@@ -118,7 +143,7 @@ const deleteUser = async (id) => {
                   :value="JSON.stringify({ code: 'USER' })"
                   v-model="newUser.roles"
                 />
-                Người dùng
+                User
               </label>
               <label class="flex items-center gap-2">
                 <input
@@ -126,7 +151,7 @@ const deleteUser = async (id) => {
                   :value="JSON.stringify({ code: 'ADMIN' })"
                   v-model="newUser.roles"
                 />
-                Quản trị viên
+                Quyền Admin
               </label>
               <label class="flex items-center gap-2">
                 <input
@@ -134,23 +159,33 @@ const deleteUser = async (id) => {
                   :value="JSON.stringify({ code: 'KITCHEN' })"
                   v-model="newUser.roles"
                 />
-                Nhà bếp
+                Quyền Kitchen
               </label>
             </div>
           </div>
+
           <button
             @click="handleAddOrUpdateUser"
-            class="w-full bg-orange-400 text-white p-2 rounded hover:bg-orange-500"
+            class="w-full bg-orange-500 text-white p-2 rounded hover:bg-orange-600"
           >
             {{ editingUserID ? "Cập nhật User" : "Thêm User" }}
           </button>
+
+          <button
+            v-if="editingUserID"
+            @click="cancelEdit"
+            class="w-full bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+          >
+            Huỷ
+          </button>
         </div>
       </div>
+
       <div class="mt-8">
         <h3 class="text-xl font-semibold mb-4 text-center">Danh sách User</h3>
         <table class="w-full">
           <thead>
-            <tr class="bg-gray-200">
+            <tr class="bg-gray-200 text-center">
               <th class="p-2 border">Tên người dùng</th>
               <th class="p-2 border">Tên đầy đủ</th>
               <th class="p-2 border">Email</th>
@@ -177,7 +212,7 @@ const deleteUser = async (id) => {
                   @click="deleteUser(user.id)"
                   class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                 >
-                  Xóa
+                  Xoá
                 </button>
               </td>
             </tr>

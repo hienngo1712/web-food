@@ -10,6 +10,7 @@ import Feedback from '../views/users/Feedback.vue';
 import Dashboard from '../views/admin/Dashboard.vue';
 import AdminLogin from '../views/admin/AdminLogin.vue';
 import UsersManagement from '../views/admin/UsersManagement.vue';
+import CustomersManagement from '../views/admin/CustomersManagement.vue';
 
 import UserLayout from '../layouts/UserLayout.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
@@ -68,6 +69,10 @@ const routes = [
       {
         path: 'users-management',
         component: UsersManagement,
+      },
+      {
+        path: 'customners-management',
+        component: CustomersManagement,
       },
     ]
   }
